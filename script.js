@@ -1,40 +1,79 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const taskInput = document.getElementById('task-input');
-    const addButton = document.getElementById('add-task-btn');
-    const taskList = document.getElementById('task-list');
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f4f8;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100vh;
+}
 
-    function addTask() {
-        const taskText = taskInput.value.trim();  // Get and trim input
+.container {
+    margin-top: 50px;
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
 
-        if (taskText === '') {
-            alert('Please enter a task.');  // Show alert if input is empty
-            return;
-        }
+h1 {
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+}
 
-        const li = document.createElement('li');
-        li.textContent = taskText;
+.input-section {
+    display: flex;
+    gap: 10px;
+}
 
-        const removeBtn = document.createElement('button');
-        removeBtn.textContent = 'Remove';
-        removeBtn.className = 'remove-btn';
+input[type="text"] {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+}
 
-        removeBtn.onclick = function () {
-            taskList.removeChild(li);
-        };
+button {
+    padding: 10px 16px;
+    font-size: 16px;
+    background-color: #3498db;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
 
-        li.appendChild(removeBtn);
-        taskList.appendChild(li);
+button:hover {
+    background-color: #2980b9;
+}
 
-        taskInput.value = '';  // Clear input after adding task
-    }
+ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 20px;
+}
 
-    // Add task on button click
-    addButton.addEventListener('click', addTask);
+li {
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    padding: 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-    // Add task on Enter key
-    taskInput.addEventListener('keypress', function (event) {
-        if (event.key === 'Enter') {
-            addTask();
-        }
-    });
-});
+.remove-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.remove-btn:hover {
+    background-color: #c0392b;
+}
