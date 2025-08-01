@@ -1,79 +1,56 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f2f4f8;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    height: 100vh;
+document.addEventListener('DOMContentLoaded', () => {
+    loadTasks();
+});
+
+// Load tasks from Local Storage
+function loadTasks() {
+    const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    storedTasks.forEach(taskText => addTask(taskText, false));
 }
 
-.container {
-    margin-top: 50px;
-    background: #ffffff;
-    padding: 30px 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    width: 400px;
+// Add a new task
+function addTask(taskText = null, save = true) {
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+
+    if (!taskText) {
+        taskText = taskInput.value.trim();
+    }
+
+    if (taskText === '') {
+        alert('Please enter a task.');
+        return;
+    }
+
+    // Create <li> element
+    const li = document.createElement('li');
+    li.textContent = taskText;
+
+    // Create Remove Button
+    const removeBtn = document.createElement('button');
+    removeBtn.textContent = 'Remove';
+    removeBtn.className = 'remove-btn';
+    removeBtn.onclick = () => {
+        li.remove();
+        removeFromLocalStorage(taskText);
+    };
+
+    li.appendChild(removeBtn);
+    taskList.appendChild(li);
+
+    // Save to Local Storage
+    if (save) {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+        storedTasks.push(taskText);
+        localStorage.setItem('tasks', JSON.stringify(storedTasks));
+    }
+
+    taskInput.value = '';
 }
 
-h1 {
-    margin-bottom: 20px;
-    text-align: center;
-    color: #333;
-}
-
-.input-section {
-    display: flex;
-    gap: 10px;
-}
-
-input[type="text"] {
-    flex: 1;
-    padding: 10px;
-    font-size: 16px;
-}
-
-button {
-    padding: 10px 16px;
-    font-size: 16px;
-    background-color: #3498db;
-    border: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 5px;
-}
-
-button:hover {
-    background-color: #2980b9;
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-    margin-top: 20px;
-}
-
-li {
-    background-color: #f9f9f9;
-    margin-bottom: 10px;
-    padding: 12px;
-    border-radius: 6px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.remove-btn {
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-.remove-btn:hover {
-    background-color: #c0392b;
+// Remove task from Local Storage
+function removeFromLocalStorage(taskText) {
+    let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+    tasks = tasks.filter(task => task !== taskText);
+    localStorage.setItem('tasks', JSON.stringify(tasks));
 }
